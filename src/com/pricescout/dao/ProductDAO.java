@@ -12,12 +12,8 @@ import java.util.Map;
 
 import com.pricescout.model.Product;
 
-/**
- * Read-only queries used by the Guest homepage: browse all products,
- * search by keyword, filter by category. Every query is parameterized
- * (PreparedStatement) to prevent SQL injection, per the proposal's
- * security requirement.
- */
+
+//DAO - Data Access Object
 public class ProductDAO {
 
     private static final String BASE_SELECT =
@@ -28,7 +24,7 @@ public class ProductDAO {
         "JOIN PriceListing pl ON pl.product_id = p.product_id " +
         "JOIN Stores s ON pl.store_id = s.store_id ";
 
-    /** All products with their store prices, optionally filtered by keyword and/or category. */
+
     public List<Product> search(String keyword, String category) throws SQLException {
         StringBuilder sql = new StringBuilder(BASE_SELECT + "WHERE 1=1 ");
         List<String> params = new ArrayList<>();
