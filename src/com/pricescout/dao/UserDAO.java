@@ -73,4 +73,17 @@ public class UserDAO {
             }
         }
     }
+
+    /** Fresh copy of a user from the database (role may have changed), or null if deleted. */
+    public User findById(int userId) throws SQLException {
+        String sql = "SELECT user_id, name, email, role FROM users WHERE user_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() ? new User(rs.getInt("user_id"), rs.getString("name"),
+                                            rs.getString("email"), rs.getString("role")) : null;
+            }
+        }
+    }
 }
