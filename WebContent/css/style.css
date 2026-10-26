@@ -564,3 +564,39 @@ ul { margin: 0; padding: 0; list-style: none; }
 .hist-table td { padding: 8px 4px; border-bottom: 1px solid #f0f2f2; }
 .hist-current td { font-weight: 700; }
 .hist-change { font-size: 13px; color: #666; }
+
+/* ===== Admin ===== */
+.admin-topbar { background: #232f3e; }
+.admin-topbar .mini-logo em { font-style: normal; font-size: 13px; font-weight: 700; background: #febd69; color: #131921; border-radius: 4px; padding: 2px 6px; margin-left: 4px; vertical-align: middle; }
+.admin-wrap h1 { display: flex; align-items: center; gap: 10px; }
+.admin-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.admin-head h1 { margin: 0; }
+.admin-count { font-size: 14px; font-weight: 700; background: #fff; border-radius: 999px; padding: 2px 10px; color: #555; }
+.admin-add { width: auto; margin: 0; padding: 10px 18px; text-decoration: none; color: #111; display: inline-block; }
+.admin-table-wrap { overflow-x: auto; background: #fff; border-radius: 10px; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.admin-table th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; color: #666; padding: 10px 12px; border-bottom: 1px solid #e3e6e6; white-space: nowrap; }
+.admin-table td { padding: 10px 12px; border-bottom: 1px solid #f0f2f2; vertical-align: middle; }
+.admin-table .num { text-align: right; white-space: nowrap; }
+.admin-table .actions { white-space: nowrap; text-align: right; }
+.admin-table .actions a { color: #007185; margin-right: 12px; text-decoration: none; }
+.admin-table .actions a:hover { text-decoration: underline; }
+.admin-table .actions form { display: inline; margin: 0; }
+.admin-delete { color: #b12704; }
+.admin-name { font-weight: 600; }
+.admin-warn { display: block; font-size: 12px; font-weight: 600; color: #b12704; }
+.admin-muted { color: #999; font-size: 13px; }
+.admin-ok { color: #1b7f3b; font-weight: 600; font-size: 13px; }
+.admin-card { background: #fff; border-radius: 10px; padding: 20px; margin-bottom: 18px; max-width: 760px; }
+.admin-card h2 { font-size: 18px; margin: 0 0 12px; }
+.admin-help { font-size: 13px; color: #555; margin: 0 0 12px; }
+.admin-form label, .admin-sub label { display: block; font-weight: 700; font-size: 14px; margin: 12px 0 4px; }
+.admin-form input, .admin-form select, .admin-form textarea, .admin-prices input { width: 100%; box-sizing: border-box; padding: 9px; border: 1px solid #a6a6a6; border-radius: 6px; font: inherit; font-size: 14px; }
+.admin-sub { border: 1px solid #e3e6e6; border-radius: 8px; margin: 16px 0 0; padding: 4px 14px 14px; }
+.admin-sub legend { font-weight: 700; font-size: 13px; color: #555; padding: 0 6px; }
+.admin-save { width: auto; padding: 10px 22px; }
+.admin-prices td { padding: 8px; }
+.admin-prices td:first-child { font-weight: 700; white-space: nowrap; }
+.admin-danger { border: 1px solid #f3c7c7; }
+.admin-delete-btn { background: #fff; border: 1px solid #b12704; color: #b12704; border-radius: 20px; padding: 9px 18px; font-weight: 700; cursor: pointer; }
+.admin-delete-btn:hover { background: #fff4f4; }

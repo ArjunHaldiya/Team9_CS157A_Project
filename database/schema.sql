@@ -115,6 +115,20 @@ CREATE TABLE price_alert (
     UNIQUE KEY unique_user_product_alert (user_id, product_id)
 );
 
+-- 12. Price history trigger: whenever a listing's price changes, save the old
+--     price (and when it was set) to price_history automatically.
+DELIMITER $$
+CREATE TRIGGER trg_price_listing_history
+AFTER UPDATE ON price_listing
+FOR EACH ROW
+BEGIN
+    IF NEW.price <> OLD.price THEN
+        INSERT INTO price_history (listing_id, price, recorded_at)
+        VALUES (OLD.listing_id, OLD.price, OLD.last_updated);
+    END IF;
+END$$
+DELIMITER ;
+
 -- ============================= Seed data =============================
 
 -- 12 rows

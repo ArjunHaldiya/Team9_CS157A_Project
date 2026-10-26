@@ -77,6 +77,12 @@
                     <span class="topbar-link-bottom">Sign Out</span>
                 </a>
                 <% } %>
+                <% if (currentUser != null && currentUser.isAdmin()) { %>
+                <a href="<%= request.getContextPath() %>/admin" class="topbar-link">
+                    <span class="topbar-link-top">PriceScout</span>
+                    <span class="topbar-link-bottom">Admin</span>
+                </a>
+                <% } %>
                 <a href="<%= request.getContextPath() %>/login" class="topbar-link">
                     <span class="topbar-link-top">Your</span>
                     <span class="topbar-link-bottom">Watchlist</span>

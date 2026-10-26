@@ -1,0 +1,10 @@
+<%@ page import="com.pricescout.model.User, com.pricescout.util.HtmlUtil" %>
+<header class="mini-topbar admin-topbar">
+    <a class="mini-logo" href="<%= request.getContextPath() %>/admin/products">Price<span>Scout</span> <em>Admin</em></a>
+    <nav>
+        <a href="<%= request.getContextPath() %>/admin/products">Products &amp; prices</a>
+        <a href="<%= request.getContextPath() %>/">View storefront</a>
+        <span class="mini-user">Hello, <%= HtmlUtil.esc(((User) session.getAttribute("user")).getName()) %></span>
+        <a href="<%= request.getContextPath() %>/logout">Sign out</a>
+    </nav>
+</header>
