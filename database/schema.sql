@@ -97,6 +97,7 @@ CREATE TABLE cart_item (
     cart_id      INT NOT NULL,
     listing_id   INT NOT NULL,
     quantity     INT NOT NULL DEFAULT 1,
+    added_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (cart_id) REFERENCES cart(cart_id),
     FOREIGN KEY (listing_id) REFERENCES price_listing(listing_id),
     UNIQUE KEY unique_cart_listing (cart_id, listing_id)

@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import com.pricescout.dao.CartDAO;
 import com.pricescout.dao.UserDAO;
 import com.pricescout.model.User;
 
@@ -48,6 +49,11 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
             startSession(req, user);
+            try {
+                req.getSession().setAttribute("cartCount", new CartDAO().countItems(user.getId()));
+            } catch (SQLException e) {
+                log("Could not load cart count", e);
+            }
             resp.sendRedirect(safeNext(req, next));
         } catch (SQLException e) {
             log("Login failed", e);
@@ -68,6 +74,7 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession(true);
         req.changeSessionId();
         session.setAttribute("user", user);
+        session.setAttribute("cartCount", 0);
     }
 
     static User currentUser(HttpServletRequest req) {

@@ -11,6 +11,7 @@
     String keyword = (String) request.getAttribute("keyword");
     String dbError = (String) request.getAttribute("dbError");
     User currentUser = (User) session.getAttribute("user");
+    int cartCount = session.getAttribute("cartCount") instanceof Integer ? (Integer) session.getAttribute("cartCount") : 0;
     if (selectedCategory == null) selectedCategory = "All";
     if (keyword == null) keyword = "";
 %>
@@ -80,13 +81,13 @@
                     <span class="topbar-link-top">Your</span>
                     <span class="topbar-link-bottom">Watchlist</span>
                 </a>
-                <a href="<%= request.getContextPath() %>/login" class="cart-link">
+                <a href="<%= request.getContextPath() %>/cart" class="cart-link">
                     <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1"></circle>
                         <circle cx="20" cy="21" r="1"></circle>
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
-                    <span class="cart-count">0</span>
+                    <span class="cart-count"><%= cartCount %></span>
                     <span class="topbar-link-bottom">Cart</span>
                 </a>
             </nav>
@@ -228,7 +229,20 @@
                     </div>
 
                     <div class="product-footer">
+                        <% if (currentUser == null) { %>
                         <a class="btn btn-primary btn-full" href="<%= request.getContextPath() %>/login">Add to Cart</a>
+                        <% } else { %>
+                        <form class="add-to-cart" method="post" action="<%= request.getContextPath() %>/cart/add">
+                            <input type="hidden" name="productId" value="<%= p.getProductId() %>">
+                            <label class="visually-hidden" for="store-<%= p.getProductId() %>">Store</label>
+                            <select id="store-<%= p.getProductId() %>" name="store" class="store-select">
+                                <% for (java.util.Map.Entry<String, BigDecimal> opt : p.getStorePrices().entrySet()) { %>
+                                <option value="<%= HtmlUtil.esc(opt.getKey()) %>" <%= opt.getKey().equals(lowestStore) ? "selected" : "" %>><%= HtmlUtil.esc(opt.getKey()) %> · $<%= opt.getValue() %></option>
+                                <% } %>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-full">Add to Cart</button>
+                        </form>
+                        <% } %>
                         <a class="btn-link" href="<%= request.getContextPath() %>/login">Sign in to see price history</a>
                     </div>
                 </article>
