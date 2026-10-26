@@ -243,7 +243,7 @@
                             <button type="submit" class="btn btn-primary btn-full">Add to Cart</button>
                         </form>
                         <% } %>
-                        <a class="btn-link" href="<%= request.getContextPath() %>/login">Sign in to see price history</a>
+                        <a class="btn-link" href="<%= request.getContextPath() %>/history?productId=<%= p.getProductId() %>"><%= currentUser == null ? "Sign in to see price history" : "See price history" %></a>
                     </div>
                 </article>
             <%

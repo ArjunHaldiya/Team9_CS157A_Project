@@ -542,3 +542,25 @@ ul { margin: 0; padding: 0; list-style: none; }
 .cart-shop-btn { display: inline-block; width: auto; padding: 11px 24px; text-decoration: none; color: #111; }
 @media (max-width: 800px) { .cart-layout { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .cart-item { grid-template-columns: 1fr; } .cart-item-total { text-align: left; } }
+
+/* ===== Price history page ===== */
+.hist-back { display: inline-block; color: #007185; text-decoration: none; font-size: 14px; margin-bottom: 14px; }
+.hist-back:hover { text-decoration: underline; }
+.hist-title { font-size: 26px; margin: 8px 0 18px; }
+.hist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.hist-card { background: #fff; border-radius: 10px; padding: 18px 20px; border: 2px solid transparent; }
+.hist-card.best { border-color: #2e7d32; }
+.hist-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.hist-card-head h2 { font-size: 18px; margin: 0; }
+.hist-now { font-size: 28px; font-weight: 800; margin: 10px 0 4px; }
+.hist-now span { font-size: 14px; font-weight: 400; color: #666; }
+.hist-trend { margin: 0 0 2px; font-size: 14px; font-weight: 600; color: #555; }
+.hist-trend.down, .hist-change.down { color: #1b7f3b; }
+.hist-trend.up, .hist-change.up { color: #b12704; }
+.hist-low { margin: 0 0 12px; font-size: 13px; color: #555; }
+.hist-empty { margin: 12px 0 0; font-size: 14px; color: #666; }
+.hist-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.hist-table th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; color: #666; border-bottom: 1px solid #e3e6e6; padding: 6px 4px; }
+.hist-table td { padding: 8px 4px; border-bottom: 1px solid #f0f2f2; }
+.hist-current td { font-weight: 700; }
+.hist-change { font-size: 13px; color: #666; }
