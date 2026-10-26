@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.math.BigDecimal" %>
 <%@ page import="com.pricescout.model.Product" %>
+<%@ page import="com.pricescout.model.User, com.pricescout.util.HtmlUtil" %>
 <%
     @SuppressWarnings("unchecked")
     List<Product> products = (List<Product>) request.getAttribute("products");
@@ -9,6 +10,7 @@
     String selectedCategory = (String) request.getAttribute("selectedCategory");
     String keyword = (String) request.getAttribute("keyword");
     String dbError = (String) request.getAttribute("dbError");
+    User currentUser = (User) session.getAttribute("user");
     if (selectedCategory == null) selectedCategory = "All";
     if (keyword == null) keyword = "";
 %>
@@ -63,15 +65,22 @@
             </form>
 
             <nav class="topbar-nav">
-                <a href="login.jsp" class="topbar-link">
+                <% if (currentUser == null) { %>
+                <a href="<%= request.getContextPath() %>/login" class="topbar-link">
                     <span class="topbar-link-top">Sign In</span>
                     <span class="topbar-link-bottom">Account</span>
                 </a>
-                <a href="login.jsp" class="topbar-link">
+                <% } else { %>
+                <a href="<%= request.getContextPath() %>/logout" class="topbar-link" title="Sign out">
+                    <span class="topbar-link-top">Hello, <%= HtmlUtil.esc(currentUser.getName()) %></span>
+                    <span class="topbar-link-bottom">Sign Out</span>
+                </a>
+                <% } %>
+                <a href="<%= request.getContextPath() %>/login" class="topbar-link">
                     <span class="topbar-link-top">Your</span>
                     <span class="topbar-link-bottom">Watchlist</span>
                 </a>
-                <a href="login.jsp" class="cart-link">
+                <a href="<%= request.getContextPath() %>/login" class="cart-link">
                     <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1"></circle>
                         <circle cx="20" cy="21" r="1"></circle>
@@ -187,7 +196,7 @@
                         BigDecimal lowestPrice = p.getLowestPrice();
             %>
                 <article class="product-card" data-name="<%= p.getName() %>">
-                    <a href="login.jsp" class="product-image">
+                    <a href="<%= request.getContextPath() %>/login" class="product-image">
                         <img src="<%= p.getImageUrl() != null ? p.getImageUrl() : "images/placeholder.png" %>"
                              alt="<%= p.getName() %>"
                              onerror="this.onerror=null;this.src='images/placeholder.png'">
@@ -195,7 +204,7 @@
 
                     <div class="product-body">
                         <span class="category-tag"><%= p.getCategory() %></span>
-                        <h3 class="product-name"><a href="login.jsp"><%= p.getName() %></a></h3>
+                        <h3 class="product-name"><a href="<%= request.getContextPath() %>/login"><%= p.getName() %></a></h3>
 
                         <div class="price-headline">
                             <span class="price-currency">$</span><span class="price-amount"><%= lowestPrice %></span>
@@ -219,8 +228,8 @@
                     </div>
 
                     <div class="product-footer">
-                        <a class="btn btn-primary btn-full" href="login.jsp">Add to Cart</a>
-                        <a class="btn-link" href="login.jsp">Sign in to see price history</a>
+                        <a class="btn btn-primary btn-full" href="<%= request.getContextPath() %>/login">Add to Cart</a>
+                        <a class="btn-link" href="<%= request.getContextPath() %>/login">Sign in to see price history</a>
                     </div>
                 </article>
             <%

@@ -483,3 +483,20 @@ ul { margin: 0; padding: 0; list-style: none; }
     .search-form { order: 3; flex-basis: 100%; }
     .hero { padding: 32px 16px; }
 }
+
+/* ===== Sign in / Create account ===== */
+.auth-page { background: #f3f3f3; min-height: 100vh; margin: 0; }
+.auth-wrap { max-width: 380px; margin: 0 auto; padding: 32px 16px; }
+.auth-logo { display: block; text-align: center; font-size: 28px; font-weight: 800; color: #131921; text-decoration: none; margin-bottom: 20px; }
+.auth-logo span { color: #f08804; }
+.auth-card { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 24px; }
+.auth-card h1 { font-size: 26px; margin: 0 0 16px; }
+.auth-card label { display: block; font-weight: 700; font-size: 14px; margin: 12px 0 4px; }
+.auth-card input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #a6a6a6; border-radius: 6px; font-size: 15px; }
+.auth-card input:focus { outline: none; border-color: #e77600; box-shadow: 0 0 0 3px rgba(228, 121, 17, .3); }
+.auth-hint { font-size: 12px; color: #555; margin: 4px 0 0; }
+.auth-btn { width: 100%; margin-top: 20px; padding: 11px; border: none; border-radius: 20px; background: #febd69; font-weight: 700; font-size: 15px; cursor: pointer; }
+.auth-btn:hover { background: #f3a847; }
+.auth-error { background: #fff4f4; border: 1px solid #cc0c39; color: #a00; border-radius: 6px; padding: 10px 12px; font-size: 14px; margin-bottom: 8px; }
+.auth-switch, .auth-back { text-align: center; font-size: 14px; margin-top: 16px; }
+.auth-switch a, .auth-back a { color: #007185; }
