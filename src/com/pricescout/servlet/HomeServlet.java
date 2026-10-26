@@ -19,7 +19,7 @@ import com.pricescout.model.Product;
  * This is the Application (Web) layer piece of the 3-tier design --
  * it talks to the DAO (Database layer) and never touches JDBC itself.
  */
-@WebServlet({"/", "/search"})
+@WebServlet({"", "/search"})
 public class HomeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final ProductDAO productDAO = new ProductDAO();

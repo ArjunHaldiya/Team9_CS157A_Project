@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.math.BigDecimal" %>
 <%@ page import="com.pricescout.model.Product" %>
+<%@ page import="com.pricescout.model.User, com.pricescout.util.HtmlUtil" %>
 <%
     @SuppressWarnings("unchecked")
     List<Product> products = (List<Product>) request.getAttribute("products");
@@ -9,6 +10,8 @@
     String selectedCategory = (String) request.getAttribute("selectedCategory");
     String keyword = (String) request.getAttribute("keyword");
     String dbError = (String) request.getAttribute("dbError");
+    User currentUser = (User) session.getAttribute("user");
+    int cartCount = session.getAttribute("cartCount") instanceof Integer ? (Integer) session.getAttribute("cartCount") : 0;
     if (selectedCategory == null) selectedCategory = "All";
     if (keyword == null) keyword = "";
 %>
@@ -63,21 +66,28 @@
             </form>
 
             <nav class="topbar-nav">
-                <a href="login.jsp" class="topbar-link">
+                <% if (currentUser == null) { %>
+                <a href="<%= request.getContextPath() %>/login" class="topbar-link">
                     <span class="topbar-link-top">Sign In</span>
                     <span class="topbar-link-bottom">Account</span>
                 </a>
-                <a href="login.jsp" class="topbar-link">
+                <% } else { %>
+                <a href="<%= request.getContextPath() %>/logout" class="topbar-link" title="Sign out">
+                    <span class="topbar-link-top">Hello, <%= HtmlUtil.esc(currentUser.getName()) %></span>
+                    <span class="topbar-link-bottom">Sign Out</span>
+                </a>
+                <% } %>
+                <a href="<%= request.getContextPath() %>/login" class="topbar-link">
                     <span class="topbar-link-top">Your</span>
                     <span class="topbar-link-bottom">Watchlist</span>
                 </a>
-                <a href="login.jsp" class="cart-link">
+                <a href="<%= request.getContextPath() %>/cart" class="cart-link">
                     <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1"></circle>
                         <circle cx="20" cy="21" r="1"></circle>
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
-                    <span class="cart-count">0</span>
+                    <span class="cart-count"><%= cartCount %></span>
                     <span class="topbar-link-bottom">Cart</span>
                 </a>
             </nav>
@@ -187,7 +197,7 @@
                         BigDecimal lowestPrice = p.getLowestPrice();
             %>
                 <article class="product-card" data-name="<%= p.getName() %>">
-                    <a href="login.jsp" class="product-image">
+                    <a href="<%= request.getContextPath() %>/login" class="product-image">
                         <img src="<%= p.getImageUrl() != null ? p.getImageUrl() : "images/placeholder.png" %>"
                              alt="<%= p.getName() %>"
                              onerror="this.onerror=null;this.src='images/placeholder.png'">
@@ -195,7 +205,7 @@
 
                     <div class="product-body">
                         <span class="category-tag"><%= p.getCategory() %></span>
-                        <h3 class="product-name"><a href="login.jsp"><%= p.getName() %></a></h3>
+                        <h3 class="product-name"><a href="<%= request.getContextPath() %>/login"><%= p.getName() %></a></h3>
 
                         <div class="price-headline">
                             <span class="price-currency">$</span><span class="price-amount"><%= lowestPrice %></span>
@@ -219,8 +229,21 @@
                     </div>
 
                     <div class="product-footer">
-                        <a class="btn btn-primary btn-full" href="login.jsp">Add to Cart</a>
-                        <a class="btn-link" href="login.jsp">Sign in to see price history</a>
+                        <% if (currentUser == null) { %>
+                        <a class="btn btn-primary btn-full" href="<%= request.getContextPath() %>/login">Add to Cart</a>
+                        <% } else { %>
+                        <form class="add-to-cart" method="post" action="<%= request.getContextPath() %>/cart/add">
+                            <input type="hidden" name="productId" value="<%= p.getProductId() %>">
+                            <label class="visually-hidden" for="store-<%= p.getProductId() %>">Store</label>
+                            <select id="store-<%= p.getProductId() %>" name="store" class="store-select">
+                                <% for (java.util.Map.Entry<String, BigDecimal> opt : p.getStorePrices().entrySet()) { %>
+                                <option value="<%= HtmlUtil.esc(opt.getKey()) %>" <%= opt.getKey().equals(lowestStore) ? "selected" : "" %>><%= HtmlUtil.esc(opt.getKey()) %> · $<%= opt.getValue() %></option>
+                                <% } %>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-full">Add to Cart</button>
+                        </form>
+                        <% } %>
+                        <a class="btn-link" href="<%= request.getContextPath() %>/history?productId=<%= p.getProductId() %>"><%= currentUser == null ? "Sign in to see price history" : "See price history" %></a>
                     </div>
                 </article>
             <%

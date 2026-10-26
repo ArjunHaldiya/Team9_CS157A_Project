@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class DBConnection {
 
     private static final String DB_URL =
-        "jdbc:mysql://localhost:3306/pricescout?useSSL=false&serverTimezone=UTC";
+        "jdbc:mysql://localhost:3306/pricescout?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "Archi@2006";
 
