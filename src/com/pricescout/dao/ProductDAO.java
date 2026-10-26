@@ -16,13 +16,24 @@ import com.pricescout.model.Product;
 //DAO - Data Access Object
 public class ProductDAO {
 
+    // Category is derived from the ISA subclass tables (electronics / household / books).
+    // Products with no subclass row fall under "Other". Wrapped in a derived table so
+    // search filters and ORDER BY can use the column aliases.
     private static final String BASE_SELECT =
-        "SELECT p.product_id, p.name AS product_name, p.image_url, " +
-        "       c.name AS category_name, s.name AS store_name, pl.price " +
-        "FROM Products p " +
-        "JOIN Categories c ON p.category_id = c.category_id " +
-        "JOIN PriceListing pl ON pl.product_id = p.product_id " +
-        "JOIN Stores s ON pl.store_id = s.store_id ";
+        "SELECT * FROM (" +
+        "  SELECT p.product_id, p.name AS product_name, p.image_url, " +
+        "         CASE WHEN e.product_id IS NOT NULL THEN 'Electronics' " +
+        "              WHEN h.product_id IS NOT NULL THEN 'Household' " +
+        "              WHEN b.product_id IS NOT NULL THEN 'Books' " +
+        "              ELSE 'Other' END AS category_name, " +
+        "         s.store_name, pl.price " +
+        "  FROM products p " +
+        "  LEFT JOIN electronics e ON e.product_id = p.product_id " +
+        "  LEFT JOIN household h ON h.product_id = p.product_id " +
+        "  LEFT JOIN books b ON b.product_id = p.product_id " +
+        "  JOIN price_listing pl ON pl.product_id = p.product_id " +
+        "  JOIN stores s ON s.store_id = pl.store_id" +
+        ") t ";
 
 
     public List<Product> search(String keyword, String category) throws SQLException {
@@ -30,14 +41,14 @@ public class ProductDAO {
         List<String> params = new ArrayList<>();
 
         if (keyword != null && !keyword.trim().isEmpty()) {
-            sql.append("AND p.name LIKE ? ");
+            sql.append("AND product_name LIKE ? ");
             params.add("%" + keyword.trim() + "%");
         }
         if (category != null && !category.trim().isEmpty() && !category.equalsIgnoreCase("All")) {
-            sql.append("AND c.name = ? ");
+            sql.append("AND category_name = ? ");
             params.add(category.trim());
         }
-        sql.append("ORDER BY p.name, s.name");
+        sql.append("ORDER BY product_name, store_name");
 
         Map<Integer, Product> byId = new LinkedHashMap<>();
 
@@ -72,7 +83,8 @@ public class ProductDAO {
     /** Distinct category names, for the browse-by-category nav. */
     public List<String> getCategories() throws SQLException {
         List<String> categories = new ArrayList<>();
-        String sql = "SELECT name FROM Categories ORDER BY name";
+        String sql = "SELECT name FROM (SELECT 'Books' AS name UNION ALL SELECT 'Electronics' " +
+                     "UNION ALL SELECT 'Household' UNION ALL SELECT 'Other') c ORDER BY name";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
