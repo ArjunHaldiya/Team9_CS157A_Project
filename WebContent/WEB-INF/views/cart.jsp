@@ -54,9 +54,6 @@
                     <span class="category-tag"><%= HtmlUtil.esc(item.getCategory()) %></span>
                     <h2 class="cart-item-name"><%= HtmlUtil.esc(item.getProductName()) %></h2>
                     <p class="cart-item-store">From <strong><%= HtmlUtil.esc(item.getStoreName()) %></strong> · $<%= item.getPrice() %> each</p>
-                    <% if (item.getAddedAt() != null) { %>
-                    <p class="cart-item-added">Added <%= dateFmt.format(item.getAddedAt()) %></p>
-                    <% } %>
                     <% if (item.isCheaperElsewhere()) { %>
                     <p class="cart-item-tip">Cheaper at <%= HtmlUtil.esc(item.getBestStore()) %>: $<%= item.getBestPrice() %></p>
                     <% } %>

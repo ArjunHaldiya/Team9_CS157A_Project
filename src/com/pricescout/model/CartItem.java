@@ -1,7 +1,6 @@
 package com.pricescout.model;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 /** One row of a user's cart: a specific store's listing of a product, plus quantity. */
 public class CartItem {
@@ -12,12 +11,11 @@ public class CartItem {
     private final String storeName;
     private final BigDecimal price;
     private final int quantity;
-    private final Timestamp addedAt;
     private final BigDecimal bestPrice;
     private final String bestStore;
 
     public CartItem(int itemId, int productId, String productName, String category, String storeName,
-                    BigDecimal price, int quantity, Timestamp addedAt, BigDecimal bestPrice, String bestStore) {
+                    BigDecimal price, int quantity, BigDecimal bestPrice, String bestStore) {
         this.itemId = itemId;
         this.productId = productId;
         this.productName = productName;
@@ -25,7 +23,6 @@ public class CartItem {
         this.storeName = storeName;
         this.price = price;
         this.quantity = quantity;
-        this.addedAt = addedAt;
         this.bestPrice = bestPrice;
         this.bestStore = bestStore;
     }
@@ -37,7 +34,6 @@ public class CartItem {
     public String getStoreName() { return storeName; }
     public BigDecimal getPrice() { return price; }
     public int getQuantity() { return quantity; }
-    public Timestamp getAddedAt() { return addedAt; }
     public BigDecimal getBestPrice() { return bestPrice; }
     public String getBestStore() { return bestStore; }
 

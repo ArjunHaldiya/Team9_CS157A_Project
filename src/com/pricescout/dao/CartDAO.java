@@ -117,10 +117,10 @@ public class CartDAO {
         }
     }
 
-    /** Cart contents, newest first, with the cheapest store for each product. */
+    /** Cart contents, sorted alphabetically by product name, with the cheapest store for each product. */
     public List<CartItem> getItems(int userId) throws SQLException {
         String sql =
-            "SELECT ci.cart_item_id, ci.quantity, ci.added_at, pl.price, p.product_id, p.name, s.store_name, " +
+            "SELECT ci.cart_item_id, ci.quantity, pl.price, p.product_id, p.name, s.store_name, " +
             "       " + CATEGORY_CASE + " AS category, " +
             "       (SELECT MIN(pl2.price) FROM price_listing pl2 WHERE pl2.product_id = p.product_id) AS best_price, " +
             "       (SELECT s2.store_name FROM price_listing pl2 JOIN stores s2 ON s2.store_id = pl2.store_id " +
@@ -131,18 +131,25 @@ public class CartDAO {
             "JOIN products p ON p.product_id = pl.product_id " +
             "JOIN stores s ON s.store_id = pl.store_id " +
             "WHERE c.user_id = ? " +
-            "ORDER BY ci.added_at DESC, ci.cart_item_id DESC";
+            "ORDER BY p.name ASC";
+
         List<CartItem> items = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     items.add(new CartItem(
-                        rs.getInt("cart_item_id"), rs.getInt("product_id"), rs.getString("name"),
-                        rs.getString("category"), rs.getString("store_name"), rs.getBigDecimal("price"),
-                        rs.getInt("quantity"), rs.getTimestamp("added_at"),
-                        rs.getBigDecimal("best_price"), rs.getString("best_store")));
+                        rs.getInt("cart_item_id"), 
+                        rs.getInt("product_id"), 
+                        rs.getString("name"),
+                        rs.getString("category"), 
+                        rs.getString("store_name"), 
+                        rs.getBigDecimal("price"),
+                        rs.getInt("quantity"), 
+                        rs.getBigDecimal("best_price"), 
+                        rs.getString("best_store")
+                    ));
                 }
             }
         }
