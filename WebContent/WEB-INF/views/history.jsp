@@ -44,6 +44,7 @@
 
 <main class="cart-wrap">
     <a class="hist-back" href="<%= ctx %>/">&larr; Back to all products</a>
+    <a class="hist-back" href="<%= ctx %>/product?id=<%= HtmlUtil.esc(request.getParameter("productId")) %>">&middot; View product page</a>
     <% if (dbError != null) { %>
     <div class="auth-error" role="alert"><%= HtmlUtil.esc(dbError) %></div>
     <% } else { %>

@@ -77,10 +77,16 @@
                     <span class="topbar-link-bottom">Sign Out</span>
                 </a>
                 <% } %>
-                <a href="<%= request.getContextPath() %>/login" class="topbar-link">
+                <a href="<%= request.getContextPath() %>/watchlist" class="topbar-link">
                     <span class="topbar-link-top">Your</span>
                     <span class="topbar-link-bottom">Watchlist</span>
                 </a>
+                <% if (currentUser != null && currentUser.isAdmin()) { %>
+                <a href="<%= request.getContextPath() %>/admin/prices" class="topbar-link">
+                    <span class="topbar-link-top">Admin</span>
+                    <span class="topbar-link-bottom">Prices</span>
+                </a>
+                <% } %>
                 <a href="<%= request.getContextPath() %>/cart" class="cart-link">
                     <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1"></circle>
@@ -197,7 +203,7 @@
                         BigDecimal lowestPrice = p.getLowestPrice();
             %>
                 <article class="product-card" data-name="<%= p.getName() %>">
-                    <a href="<%= request.getContextPath() %>/login" class="product-image">
+                    <a href="<%= request.getContextPath() %>/product?id=<%= p.getProductId() %>" class="product-image">
                         <img src="<%= p.getImageUrl() != null ? p.getImageUrl() : "images/placeholder.png" %>"
                              alt="<%= p.getName() %>"
                              onerror="this.onerror=null;this.src='images/placeholder.png'">
@@ -205,7 +211,7 @@
 
                     <div class="product-body">
                         <span class="category-tag"><%= p.getCategory() %></span>
-                        <h3 class="product-name"><a href="<%= request.getContextPath() %>/login"><%= p.getName() %></a></h3>
+                        <h3 class="product-name"><a href="<%= request.getContextPath() %>/product?id=<%= p.getProductId() %>"><%= p.getName() %></a></h3>
 
                         <div class="price-headline">
                             <span class="price-currency">$</span><span class="price-amount"><%= lowestPrice %></span>
