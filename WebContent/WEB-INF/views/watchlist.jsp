@@ -19,7 +19,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Your watchlist · PriceScout</title>
+    <title>Your Watchlist · PriceScout</title>
     <link rel="stylesheet" href="<%= ctx %>/css/style.css">
 </head>
 <body class="cart-page">
@@ -51,11 +51,15 @@
     </div>
     <% } else if (alerts != null) { %>
     <% if (reachedCount > 0) { %>
-    <p class="wl-summary"><strong><%= reachedCount %></strong> of your <%= alerts.size() %> alert<%= alerts.size() == 1 ? "" : "s" %> reached the target price.</p>
+        <% if (alerts.size() == 1) { %>
+            <p class="wl-summary">Your <strong>1</strong> alert reached the target price.</p>
+        <% } else { %>
+            <p class="wl-summary"><strong><%= reachedCount %></strong> of your <%= alerts.size() %> alerts reached the target price.</p>
+        <% } %>
     <% } %>
     <table class="pd-table wl-table">
         <thead>
-            <tr><th>Product</th><th>Your target</th><th>Lowest price now</th><th>Status</th><th></th></tr>
+            <tr><th>Product</th><th>Your Target</th><th>Current Lowest Price</th><th>Status</th><th></th></tr>
         </thead>
         <tbody>
         <% for (PriceAlert a : alerts) { %>
